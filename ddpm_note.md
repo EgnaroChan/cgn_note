@@ -32,12 +32,3 @@ $q(X_{0:T})=q(X_0)\cdot q(X_1|X_0)\cdot q(X_2|X_1\cdot X_0)...q(X_T|X_{T-1}X_{T-
 1.https://learnopencv.com/denoising-diffusion-probabilistic-models/
 2.https://lilianweng.github.io/posts/2021-07-11-diffusion-models/#reverse-diffusion-process
 
-
-
-
-11111111111111
-
-11111111111111
-
-22222222222222
-what are you doing here?
