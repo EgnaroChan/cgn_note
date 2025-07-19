@@ -1,11 +1,11 @@
-# __什么是扩散模型？__
-本文是对[扩散模型](https://lilianweng.github.io/posts/2021-07-11-diffusion-models/#connection-with-stochastic-gradient-langevin-dynamics)的内容补充。
-## **1.对$x_t=\sqrt{\bar\alpha_t}x_0+\sqrt{1-\bar\alpha_t}\epsilon$的证明**
-已知$x_t=\sqrt{\alpha_t}x_{t-1}+\sqrt{1-\alpha_t}\epsilon$，其中$\epsilon\sim\mathcal{N}(0,I)$.
+# __What are diffusion models？__
+This article is a supplement to [What are diffusion models?](https://lilianweng.github.io/posts/2021-07-11-diffusion-models/#connection-with-stochastic-gradient-langevin-dynamics)
+## **1.Derivation of the formula $x_t=\sqrt{\bar\alpha_t}x_0+\sqrt{1-\bar\alpha_t}\epsilon$**
+Given: $x_t=\sqrt{\alpha_t}x_{t-1}+\sqrt{1-\alpha_t}\epsilon$，where $\epsilon\sim\mathcal{N}(0,I)$.
 
-若$$x_t=\sqrt{\alpha_t...\alpha_k}x_{k-1}+\sqrt{1-\alpha_t...\alpha_k}\epsilon$$
+If$$x_t=\sqrt{\alpha_t...\alpha_k}x_{k-1}+\sqrt{1-\alpha_t...\alpha_k}\epsilon$$
 
-则有
+then we have:
 $$
 \begin{aligned}
 x_t &= \sqrt{\alpha_t...\alpha_k}(\sqrt{\alpha_{k-1}}x_{k-2}+\sqrt{1-\alpha_{k-1}}\epsilon_1)+\sqrt{1-\alpha_t...\alpha_k}\epsilon_2
@@ -13,7 +13,7 @@ x_t &= \sqrt{\alpha_t...\alpha_k}(\sqrt{\alpha_{k-1}}x_{k-2}+\sqrt{1-\alpha_{k-1
 \\&= \sqrt{\alpha_t...\alpha_k\alpha_{k-1}}x_{k-2}+\sqrt{1-\alpha_t...\alpha_k\alpha_{k-1}}\epsilon
 \end{aligned}
 $$
-其中 $\epsilon$ 均为标准高斯分布，为了偷懒，仅在同时出现时进行编号区分。
+All instances of $\epsilon$ follow a standard Gaussian distribution.For convenience, they are only numbered for distinction when they appear simultaneously.
 
 由数学归纳法可知,取 $k=1$ 时
 $$x_t = \sqrt{\bar\alpha_t}x_0+\sqrt{1-\bar\alpha_t}\epsilon$$
@@ -41,3 +41,21 @@ $$q(x_{t-1}|x_t) = \mathcal{N}\left(\frac{x_t}{\sqrt{\alpha_t}}, \frac{1-\alpha_
 
 反复进行，从而达到目标。
 
+## **4.流程**
+生成真实噪声 $\epsilon$ ，并记录
+
+训练时：
+
+(1)输入：$(x_t,t)$
+
+(2)输出：$\epsilon_{\theta}(x_t,t)$
+
+(3)将输出的 $\epsilon_{\theta}$ 与我们已知的噪声 $\epsilon$ 进行比较，计算损失，更新模型。
+
+生成时：
+
+(1)input: $(x_t,t)$
+
+(2)output: $\epsilon_{\theta}(x_t,t)$
+
+(3)substitute the output $\epsilon_{\theta}$ into the reverse process formula to get $x_{t-1}$ as input for the next step.
